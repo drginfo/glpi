@@ -1168,7 +1168,7 @@ class Html {
 
       // Start the page
       echo "<!DOCTYPE html>\n";
-      echo "<html lang=\"{$CFG_GLPI["languages"][$_SESSION['glpilanguage']][3]}\">";
+      echo "<html lang=\"{$CFG_GLPI["languages"][$_SESSION['glpilanguage']][3]}\" class=\"legacy\">";
       echo "<head><title>GLPI - ".$title."</title>";
       echo "<meta charset=\"utf-8\">";
 
@@ -1179,8 +1179,6 @@ class Html {
       echo "<meta name='viewport' content='width=device-width, initial-scale=1'>";
 
       echo Html::css('public/lib/jquery-ui-dist/jquery-ui.css');
-      //JSTree JS part is loaded on demand... But from an ajax call to display entities. Need to have CSS loaded.
-      echo Html::css('css/jstree-glpi.css');
       echo Html::css('public/lib/select2/css/select2.css');
       echo Html::css('public/lib/qtip2/jquery.qtip.css');
       echo Html::css('public/lib/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.css');
@@ -1256,7 +1254,6 @@ class Html {
 
          if (in_array('charts', $jslibs)) {
             echo Html::css('public/lib/chartist/chartist.css');
-            echo Html::css('css/chartists-glpi.css');
             echo Html::css('public/lib/chartist-plugin-tooltips/chartist-plugin-tooltip.css');
             Html::requireJs('charts');
          }
@@ -1276,16 +1273,14 @@ class Html {
       // load log filters everywhere
       Html::requireJs('log_filters');
 
-      echo Html::css('css/jquery-glpi.css');
       if (CommonGLPI::isLayoutWithMain()
           && !CommonGLPI::isLayoutExcludedPage()) {
          echo Html::css('/lib/jqueryplugins/jquery-ui-scrollable-tabs/css/jquery.scrollabletab.css');
       }
 
       //  CSS link
-      echo Html::scss('main_styles');
+      echo Html::scss('glpi-legacy');
 
-      echo Html::css('css/print.css', ['media' => 'print']);
       echo "<link rel='shortcut icon' type='images/x-icon' href='".
              $CFG_GLPI["root_doc"]."/pics/favicon.ico' >\n";
 
@@ -1365,8 +1360,8 @@ class Html {
                                              'ReservationItem', 'Report', 'MigrationCleaner',
                                              'SavedSearch'];
 
-      $menu['plugins']['title']      = _n('Plugin', 'Plugins', Session::getPluralNumber());
-      $menu['plugins']['types']      = [];
+      /*$menu['plugins']['title']      = _n('Plugin', 'Plugins', Session::getPluralNumber());
+      $menu['plugins']['types']      = [];*/
 
       $menu['admin']['title']        = __('Administration');
       $menu['admin']['types']        = ['User', 'Group', 'Entity', 'Rule',
@@ -1378,8 +1373,8 @@ class Html {
                                         'MailCollector', 'Link', 'Plugin'];
 
       // Special items
-      $menu['preference']['title']   = __('My settings');
-      $menu['preference']['default'] = '/front/preference.php';
+      /*$menu['preference']['title']   = __('My settings');
+      $menu['preference']['default'] = '/front/preference.php';*/
 
       return $menu;
    }
@@ -1429,6 +1424,7 @@ class Html {
                   if ($data = $type::getMenuContent()) {
                      // Multi menu entries management
                      if (isset($data['is_multi_entries']) && $data['is_multi_entries']) {
+                        unset($data['is_multi_entries']);
                         if (!isset($menu[$category]['content'])) {
                            $menu[$category]['content'] = [];
                         }
@@ -3264,7 +3260,7 @@ class Html {
       global $CFG_GLPI;
 
       if (count($_SESSION["glpiprofiles"])>1) {
-         echo '<li class="profile-selector"><form name="form" method="post" action="'.$target.'">';
+         echo '<li class="nav-item profile-selector"><form name="form" method="post" action="'.$target.'">';
          $values = [];
          foreach ($_SESSION["glpiprofiles"] as $key => $val) {
             $values[$key] = $val['name'];
@@ -3272,18 +3268,18 @@ class Html {
 
          Dropdown::showFromArray('newprofile', $values,
                                  ['value'     => $_SESSION["glpiactiveprofile"]["id"],
-                                       'width'     => '150px',
-                                       'on_change' => 'submit()']);
+                                  'width'     => '150px',
+                                  'on_change' => 'submit()']);
          Html::closeForm();
          echo '</li>';
       }
 
       if (Session::isMultiEntitiesMode()) {
-         echo "<li class='profile-selector'>";
-         Ajax::createModalWindow('entity_window', $CFG_GLPI['root_doc']."/ajax/entitytree.php",
+         echo "<li class='nav-item profile-selector'>";
+         /*Ajax::createModalWindow('entity_window', $CFG_GLPI['root_doc']."/ajax/entitytree.php",
                                  ['title'       => __('Select the desired entity'),
-                                       'extraparams' => ['target' => $target]]);
-         echo "<a onclick='entity_window.dialog(\"open\");' href='#modal_entity_content' title=\"".
+                                 'extraparams' => ['target' => $target]]);*/
+         echo "<a href='#modal_entity_content' title=\"".
                 addslashes($_SESSION["glpiactive_entity_name"]).
                 "\" class='entity_select' id='global_entity_select'>".
                 $_SESSION["glpiactive_entity_shortname"]."</a>";
@@ -6634,11 +6630,15 @@ class Html {
       }
 
       if (!isset($args['file']) || $args['file'] == 'main_styles') {
-         $files[] = 'css/styles';
+         $files[] = 'css/glpi';
+      } else if ($args['file'] == 'glpi-legacy') {
+         $ckey .= '_legacy';
+         $files[] = 'css/legacy';
+
          if (isset($_SESSION['glpihighcontrast_css'])
             && $_SESSION['glpihighcontrast_css']) {
             $ckey .= '_highcontrast';
-            $files[] = 'css/highcontrast';
+            $files[] = 'css/_highcontrast';
          }
 
          // CSS theme
@@ -6649,17 +6649,16 @@ class Html {
          $ckey .= '_' . $theme;
          $files[] = 'css/palettes/' . $theme;
       } else {
+         if (!Toolbox::startsWith($args['file'], 'css/')) {
+            $args['file'] = '/css/' . $args['file'];
+         }
          $ckey .= '_' . md5($args['file']);
 
-         $filename = realpath(GLPI_ROOT . '/' . $args['file']);
+         $filename = realpath(GLPI_ROOT . $args['file'] . '.scss');
          if (!Toolbox::startsWith($filename, realpath(GLPI_ROOT))) {
             // Prevent import of a file from ouside GLPI dir
+            // or not ending with .scss
             return '';
-         }
-
-         if (!Toolbox::endsWith($args['file'], '.scss')) {
-            // Prevent include of file if ext is not .scss
-            $args['file'] .= '.scss';
          }
 
          $files[] = $args['file'];
@@ -6682,21 +6681,21 @@ class Html {
             }
             $import .= '@import "' . $file . '";';
             $fckey = md5($file);
-            $md5file = md5(file_get_contents($path));
+            $hashfile = self::getScssFileHash($path);
 
             //check if files has changed
             if ($GLPI_CACHE->has($fckey)) {
-               $md5 = $GLPI_CACHE->get($fckey);
+               $hash = $GLPI_CACHE->get($fckey);
 
-               if ($md5file != $md5) {
+               if ($hashfile != $hash) {
                   //file has changed
                   Toolbox::logDebug("$file has changed, reloading");
                   $args['reload'] = true;
-                  $GLPI_CACHE->set($fckey, $md5file);
+                  $GLPI_CACHE->set($fckey, $hashfile);
                }
             } else {
                Toolbox::logDebug("$file is new, loading");
-               $GLPI_CACHE->set($fckey, $md5file);
+               $GLPI_CACHE->set($fckey, $hashfile);
             }
          } else {
             Toolbox::logWarning('Requested file ' . $path . ' does not exists.');
@@ -6704,6 +6703,21 @@ class Html {
       }
 
       $scss->addImportPath(GLPI_ROOT);
+
+      // Workaround to enable imports of ".css" files inside scss.
+      // This has been done to not have to convert existing legacy ".css" files to ".scss" files.
+      // TODO Remove this when legacy CSS files will be removed.
+      $scss->addImportPath(
+         function($path) {
+            $filename = realpath(GLPI_ROOT . '/css/' . $path);
+            if (false === $filename
+                || !Toolbox::endsWith($filename, '.css')
+                || !Toolbox::startsWith($filename, realpath(GLPI_ROOT))) {
+               return null;
+            }
+            return $filename;
+         }
+      );
 
       if ($GLPI_CACHE->has($ckey) && !isset($args['reload']) && !isset($args['nocache'])) {
          $css = $GLPI_CACHE->get($ckey);
@@ -6715,6 +6729,44 @@ class Html {
       }
 
       return $css;
+   }
+
+   /**
+    * Returns SCSS file hash.
+    * This function evaluates recursivly imports to compute a hash that represent the whole
+    * contents of the final SCSS.
+    *
+    * @param string $filename
+    *
+    * @return null|string
+    */
+   public static function getScssFileHash(string $filename) {
+
+      if (!file_exists($filename) || !is_readable($filename)) {
+         return null;
+      }
+
+      $contents = file_get_contents($filename);
+      $hash = md5($contents);
+
+      $matches = [];
+      preg_match_all('/@import\s+[\'"]([^\'"]*)[\'"];/', $contents, $matches);
+      foreach ($matches[1] as $import) {
+         // Resolve file path inside css directory
+         $imported_filename = GLPI_ROOT . '/css/' . $import;
+
+         if (!preg_match('/\.s?css$/', $imported_filename)) {
+            if (file_exists($imported_filename . '.scss')) {
+               $imported_filename .= '.scss';
+            } else if (file_exists($imported_filename . '.scss')) {
+               $imported_filename .= '.css';
+            }
+         }
+
+         $hash .= self::getScssFileHash($imported_filename);
+      }
+
+      return $hash;
    }
 
    /**
@@ -6739,5 +6791,42 @@ class Html {
     */
    public static function getScssCompileDir() {
       return GLPI_ROOT . '/css/compiled';
+   }
+
+   /**
+    * Get javascript requirement for route or itemtype
+    *
+    * @since 10.0.0
+    *
+    * @param array  $entries Configuration entries
+    * @param string $current Current route/itemtype
+    *
+    * @return array
+    */
+   public static function getJsRequirements($entries, $current) {
+      $requirements = [];
+      foreach ($entries as $key => $values) {
+         if ($key !== $current) {
+            if (is_array($values)) {
+               $requirements = array_merge(
+                  $requirements,
+                  self::getJsRequirements($values, $current)
+               );
+            }
+         } else {
+            if (is_array(array_values($values)[0])) {
+               $requirements =  array_merge(
+                  $requirements,
+                  self::getJsRequirements($values, $current)
+               );
+            } else {
+               $requirements = array_merge(
+                  $requirements,
+                  $values
+               );
+            }
+         }
+      }
+      return $requirements;
    }
 }

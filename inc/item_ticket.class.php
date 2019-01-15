@@ -544,6 +544,20 @@ class Item_Ticket extends CommonDBRelation{
    }
 
 
+   protected function countForTab($item, $tab, $deleted = 0, $template = 0) {
+      return countElementsInTable(
+         'glpi_items_tickets',
+         [
+            'AND' => [
+               'tickets_id' => $item->getID()
+            ],
+            [
+               'itemtype' => $_SESSION["glpiactiveprofile"]["helpdesk_item_type"]
+            ]
+         ]
+      );
+   }
+
    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
 
       switch ($item->getType()) {
@@ -1015,7 +1029,6 @@ class Item_Ticket extends CommonDBRelation{
 
       $union = new \QueryUnion();
       foreach ($itemtypes as $type) {
-         //TODO: migrate when iterator usuports UNION
          $table = getTableForItemType($type);
          $union->addQuery([
             'SELECT' => [

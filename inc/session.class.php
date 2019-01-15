@@ -114,7 +114,6 @@ class Session {
                } else {
                   $_SESSION["glpiauthtype"]     = $auth->user->fields['authtype'];
                }
-               $_SESSION["glpiroot"]            = $CFG_GLPI["root_doc"];
                $_SESSION["glpi_use_mode"]       = $auth->user->fields['use_mode'];
                $_SESSION["glpi_plannings"]      = importArrayFromDB($auth->user->fields['plannings']);
                $_SESSION["glpicrontimer"]       = time();
@@ -1084,6 +1083,22 @@ class Session {
                 || !isset($array[$message_type])
                 || in_array($msg, $array[$message_type]) === false) {
                array_push($array[$message_type], $msg);
+               global $IS_TWIG, $container;
+               if ($IS_TWIG) {
+                  switch ($message_type) {
+                     case ERROR:
+                        $flashtype = 'error';
+                        break;
+                     case WARNING:
+                        $flashtype = 'warniing';
+                        break;
+                     case INFO:
+                     default:
+                        $flashtype = 'info';
+                        break;
+                  }
+                  $container->get(Slim\Flash\Messages::class)->addMessage($flashtype, $msg);
+               }
             }
          }
       }
