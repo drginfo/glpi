@@ -554,6 +554,7 @@ class Search {
       $data['search']['no_search']   = true;
 
       $data['toview'] = self::addDefaultToView($itemtype, $params);
+      $data['meta_toview'] = [];
       if (!$forcetoview) {
          // Add items to display depending of personal prefs
          $pref_itemtype = $itemtype;
@@ -1462,16 +1463,18 @@ class Search {
          }
 
          // manage toview column for criteria with meta flag
-         foreach ($data['meta_toview'] as $m_itemtype => $toview) {
-            $searchopt = &self::getOptions($m_itemtype);
-            foreach ($toview as $opt_id) {
-               $data['data']['cols'][] = [
-                  'itemtype'  => $m_itemtype,
-                  'id'        => $opt_id,
-                  'name'      => $searchopt[$opt_id]["name"],
-                  'meta'      => 1,
-                  'searchopt' => $searchopt[$opt_id],
-               ];
+         if (isset($data['meta_toview'])) {
+            foreach ($data['meta_toview'] as $m_itemtype => $toview) {
+               $searchopt = &self::getOptions($m_itemtype);
+               foreach ($toview as $opt_id) {
+                  $data['data']['cols'][] = [
+                     'itemtype'  => $m_itemtype,
+                     'id'        => $opt_id,
+                     'name'      => $searchopt[$opt_id]["name"],
+                     'meta'      => 1,
+                     'searchopt' => $searchopt[$opt_id],
+                  ];
+               }
             }
          }
 
