@@ -56,19 +56,15 @@
 {% endblock %}
 
 {% block header %}
-<header class="app-header navbar">
-   <a href="{{ base_path() }}" class="navbar-brand">
-      <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini">
-         {# FIXME: create a small logo #}
-         <img src="{{ CFG_GLPI.root_doc }}/pics/fd_logo_s.png" alt="{{ __('Home') }}"/>
-      </span>
-      <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">
-         <img src="{{ CFG_GLPI.root_doc }}/pics/logos/logo-GLPI-100-black.png" alt="GLPI {{ __('Home') }}"/>
-      </span>
-    </a>
-    {{ block('topmenu') }}
+<header class="app-header navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
+      <a href="{{ base_path() }}" class="navbar-brand">
+         <!-- logo for regular state and mobile devices -->
+         <img class="navbar-brand-full" src="{{ CFG_GLPI.root_doc }}/pics/logos/logo-GLPI-100-white.png" alt="GLPI {{ __('Home') }}"/>
+      </a>
+      <a href="#" class="sidebar-toggler" data-toggle="sidebar-lg-show">
+         <span class="navbar-toggler-icon"></span>
+      </a>
+      {{ block('topmenu') }}
 </header>
 {% endblock %}
 
@@ -660,10 +656,10 @@ permit_select_parent	0
 
 {# Prefs / Logout link #}
 {% block topmenu %}
-   <ul class="navbar-nav">
+   <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
       <li class="nav-item" id="language_link">
    {% if not constant('GLPI_DEMO_MODE') %}
-         <a href="{{ CFG_GLPI.root_doc }}/front/preference.php?forcetab=User$1" title="{{ glpi_lang_name }}">
+         <a class="nav-link" href="{{ CFG_GLPI.root_doc }}/front/preference.php?forcetab=User$1" title="{{ glpi_lang_name }}">
             {{  glpi_lang_name }}
          </a>
    {% else %}
@@ -672,34 +668,36 @@ permit_select_parent	0
       </li>
 
       <li class="nav-item" id='help_link'>
-         <a href='{% if CFG_GLPI.central_doc_url is empty %}http://glpi-project.org/help-central{% else %}{{ CFG_GLPI.central_doc_url}}{% endif %}' target='_blank' title="{{ __s('Help') }}" class='fa fa-question'>
+         <a class="nav-link" href='{{ CFG_GLPI.central_doc_url|default('http://glpi-project.org/help-central') }}' target='_blank' title="{{ __('Help') }}">
+            <i class="fa fa-question"></i>
             <span class='sr-only'>{{ __('Help') }}</span>
          </a>
       </li>
 
       <li class="nav-item" id='bookmark_link'>
-         <a href='#' id='showSavedSearchesLink' class='fa fa-star' title="{{ __('Load a bookmark') }}">
+         <a class="nav-link" href='#' id='showSavedSearchesLink' title="{{ __('Load a bookmark') }}">
+            <i class="fa fa-star"></i>
             <span class='sr-only'>{{ __('Saved searches') }}</span>
          </a>
       </li>
 
    {% if call_static('Config', 'canUpdate') %}
-      <li class="nav-item" id='debug_mode'{% if glpi_debug %} class="active"{% endif %}>
+      <li class="nav-item{% if glpi_debug %} active{% endif %}" id='debug_mode'>
       {% set dbgbtn_class = 'debugoff' %}
       {% set dbgbtn_title = __('Debug mode disabled') %}
       {% if glpi_debug %}
          {% set dbgbtn_class = 'debugon' %}
          {% set dbgbtn_title = __('Debug mode enabled') %}
       {% endif %}
-         <a href="?switch=switch-debug" class="fa fa-bug {{ dbgbtn_class }}"
-               title="{{ dbgbtn_title }}">
+         <a class="nav-link" href="?switch=switch-debug" title="{{ dbgbtn_title }}">
+            <i class="fa fa-bug {{ dbgbtn_class }}"></i>
             <span class='sr-only'>{{ __('Change mode') }}</span>
          </a>
       </li>
    {% endif %}
 
       <li class="nav-item" id='preferences_link'>
-         <a href='{#{ path_for('/user/preferences') }#}' title="{{ __('My settings') }}">
+         <a class="nav-link" href='{#{ path_for('/user/preferences') }#}' title="{{ __('My settings') }}">
             <i class="fa fa-cog"></i>
             <span class='sr-only'>{{ __('My settings') }}</span>
 
@@ -715,11 +713,12 @@ permit_select_parent	0
       {% endif %}
 
       <li class="nav-item" id='deconnexion'>
-         <a href='{{ path_for('logout') }}' title="{{ __s('Logout') }}" class="fa fa-sign-out-alt">
+         <a class="nav-link" href='{{ path_for('logout') }}' title="{{ __s('Logout') }}">
          {#if (isset($_SESSION['glpiextauth']) && $_SESSION['glpiextauth']) {
             //FIXME: Manage in logout route?
             echo "?noAUTO=1";
          }}#}
+            <i class="fa fa-sign-out-alt"></i>
             <span class='sr-only'>{{ __('Logout') }}</span>
          </a>
       </li>

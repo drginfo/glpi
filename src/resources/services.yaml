@@ -46,7 +46,7 @@ services:
         resource: '%kernel.project_dir%/src/Glpi/*'
         exclude: '%kernel.project_dir%/src/Glpi/{Annotation,DependencyInjection,Event,Kernel.php}'
 
-#### Glpi services bellow
+#### Glpi services below
 
     Glpi\Application\View\TwigView:
         arguments:
@@ -72,7 +72,7 @@ services:
     Glpi\Config:
         synthetic: true
 
-#### Legacy services bellow
+#### Legacy services below
 
     # DBmysql service is synthetic as it may sometime be unavailable (before install process)
     # and therefore will be added during container compilation process
@@ -83,7 +83,7 @@ services:
     Plugin:
         class: 'Plugin'
 
-#### Vendor services bellow
+#### Vendor services below
 
     Doctrine\Common\Annotations\Reader:
         class: 'Doctrine\Common\Annotations\AnnotationReader'

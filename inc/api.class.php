@@ -2260,6 +2260,7 @@ abstract class API extends CommonGLPI {
     * @return void
     */
    public function inlineDocumentation($file) {
+        //this should be served from a slim route
       self::header(true, __("API Documentation"));
       echo Html::css("public/lib/prismjs/themes/prism-coy.css");
       echo Html::script("public/lib/prismjs/components/prism-core.js");

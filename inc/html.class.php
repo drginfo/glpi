@@ -3281,7 +3281,7 @@ class Html {
                                  'extraparams' => ['target' => $target]]);*/
          echo "<a href='#modal_entity_content' title=\"".
                 addslashes($_SESSION["glpiactive_entity_name"]).
-                "\" class='entity_select' id='global_entity_select'>".
+                "\" class='nav-link entity_select' id='global_entity_select'>".
                 $_SESSION["glpiactive_entity_shortname"]."</a>";
 
          echo "</li>";
@@ -6638,7 +6638,7 @@ class Html {
          if (isset($_SESSION['glpihighcontrast_css'])
             && $_SESSION['glpihighcontrast_css']) {
             $ckey .= '_highcontrast';
-            $files[] = 'css/_highcontrast';
+            $files[] = 'css/highcontrast';
          }
 
          // CSS theme
