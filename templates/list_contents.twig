@@ -265,7 +265,7 @@
 #}
 {% else %}
             <div class="mailbox-controls">
-               <div class="pull-right">
+               <div class="float-right">
    {% if search_data.data.totalcount > 0 %}
                   {{ __('%1$s-%2$s/%3$s')|format(
                      search_data.search.start + search_data.data.begin + 1,
@@ -515,15 +515,15 @@
             search_data.data.totalcount
          ) }}
    {% endif %}
-         <div class="pull-right">
+         <div class="float-right">
             <ul class="pagination">
-               <li class="paginate_button first{% if search_data.pagination.current_page == 1 %} disabled{% endif %}">
+               <li class="page-item{% if search_data.pagination.current_page == 1 %} disabled{% endif %}">
                   <a href="{{ path_for('list', {'itemtype': search_data.itemtype, 'page': 1}) }}" title="{{ __("First page") }}">
                      <i class="fa fa-fast-backward"></i>
                      <span class="sr-only">{{ __("First page") }}</span>
                   </a>
                </li>
-               <li class="paginate_button previous{% if search_data.pagination.previous_page == false or search_data.pagination.current_page == search_data.pagination.previous_page %} disabled{% endif %}">
+               <li class="page-item{% if search_data.pagination.previous_page == false or search_data.pagination.current_page == search_data.pagination.previous_page %} disabled{% endif %}">
                   <a href="{% if search_data.pagination.previous_page == false %}#{% else %}{{ path_for('list', {'itemtype': search_data.itemtype, 'page': search_data.pagination.previous_page})}}{% endif %}" title="{{ __("Previous page (%1$s)")|format(search_data.pagination.previous_page) }}">
                      <i class="fa fa-step-backward"></i>
                      <span class="sr-only">
