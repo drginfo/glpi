@@ -37,40 +37,40 @@
    <div class="card">
 {% if main_header %}
       <div class="card-header">
-         <h3>{{ __('Search %1$s')|format(item.getTypeName()|lower)}}</h3>
-         <div class="btn-group pull-right">
-            <a href="#" id="btn_as_map" class="btn btn-sm btn-default{% if search_data.search.as_map %} active{% endif %}" title="{{ __('Show as map') }}">
+         {{ __('Search %1$s')|format(item.getTypeName()|lower)}}
+         <div class="card-header-actions">
+            <a href="#" id="btn_as_map" class="card-header-action{% if search_data.search.as_map %} active{% endif %}" title="{{ __('Show as map') }}">
                <i class="fa fa-globe-americas"></i>
                <span class="sr-only">{{ __s('Show as map') }}</span>
             </a>
    {% if item.maybeDeleted() %}
-            <a href="#" id="btn_is_deleted" class="btn btn-sm btn-default{% if search_data.search.is_deleted %} active{% endif %}" title="{{ __s('Show items in dustbin') }}">
+            <a href="#" id="btn_is_deleted" class="card-header-action{% if search_data.search.is_deleted %} active{% endif %}" title="{{ __s('Show items in dustbin') }}">
                <i class="fa fa-trash"></i>
                <span class="sr-only">{{ __s('Show items in dustbin') }}</span>
             </a>
    {% endif %}
-            <button id="toggle_search_criteria" type="button" class="btn btn-sm btn-default active" title="{{ __s('Display/hide search panel') }}">
+            <a id="toggle_search_criteria" class="card-header-action active" title="{{ __s('Display/hide search panel') }}">
                <i class="fa fa-search"></i>
                <span class="sr-only">{{ __s('Display/hide search panel') }}</span>
-            </button>
-            <button id="default_items" type="button" class="btn btn-default btn-sm" title="{{ __s('Select default items to show') }}">
+            </a>
+            <a id="default_items" class="card-header-action" title="{{ __s('Select default items to show') }}">
                <i class="fa fa-wrench"></i>
                <span class="sr-only">{{ __s('Select default items to show') }}</span>
-            </button>
+            </a>
             <div class="btn-group">
                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-download"></i><span class="sr-only">{{ __('Download') }}</span>&nbsp;<span class="fa fa-caret-down"></span>
+                  <i class="fa fa-download"></i><span class="sr-only">{{ __('Download') }}</span>
                </button>
-               <ul class="dropdown-menu">
-                  <li><a href="{#{Search::PDF_OUTPUT_LANDSCAPE}#}">{{ __('Current page in landscape PDF') }}</a></li>
-                  <li><a href="{#{Search::PDF_OUTPUT_PORTRAIT}#}">{{ __('Current page in portrait PDF') }}</a></li>
-                  <li><a href="{#{Search::SYLK_OUTPUT}#}">{{ __('Current page in SLK') }}</a></li>
-                  <li><a href="{#{Search::CSV_OUTPUT}#}">{{ __('Current page in CSV') }}</a></li>
-                  <li><a href="{#{'-'.Search::PDF_OUTPUT_LANDSCAPE}#}">{{ __('All pages in landscape PDF') }}</a></li>
-                  <li><a href="{#{'-'.Search::PDF_OUTPUT_PORTRAIT}#}">{{ __('All pages in portrait PDF') }}</a></li>
-                  <li><a href="{#{'-'.Search::SYLK_OUTPUT}#}">{{ __('All pages in SLK') }}</a></li>
-                  <li><a href="{#{'-'.Search::CSV_OUTPUT}#}">{{ __('All pages in CSV') }}</a></li>
-               </ul>
+               <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{#{Search::PDF_OUTPUT_LANDSCAPE}#}">{{ __('Current page in landscape PDF') }}</a>
+                  <a class="dropdown-item" href="{#{Search::PDF_OUTPUT_PORTRAIT}#}">{{ __('Current page in portrait PDF') }}</a>
+                  <a class="dropdown-item" href="{#{Search::SYLK_OUTPUT}#}">{{ __('Current page in SLK') }}</a>
+                  <a class="dropdown-item" href="{#{Search::CSV_OUTPUT}#}">{{ __('Current page in CSV') }}</a>
+                  <a class="dropdown-item" href="{#{'-'.Search::PDF_OUTPUT_LANDSCAPE}#}">{{ __('All pages in landscape PDF') }}</a>
+                  <a class="dropdown-item" href="{#{'-'.Search::PDF_OUTPUT_PORTRAIT}#}">{{ __('All pages in portrait PDF') }}</a>
+                  <a class="dropdown-item" href="{#{'-'.Search::SYLK_OUTPUT}#}">{{ __('All pages in SLK') }}</a>
+                  <a class="dropdown-item" href="{#{'-'.Search::CSV_OUTPUT}#}">{{ __('All pages in CSV') }}</a>
+               </div>
             </div><!-- /btn-group -->
          </div><!-- /box-tools -->
       </div><!-- /box-header -->
