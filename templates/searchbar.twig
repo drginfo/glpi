@@ -333,10 +333,11 @@
         <div class="legacy">
             {{ search_form|raw }}
         </div>
+    {# Search form must be reworked
     {% import _self as sbar %}
     {% for num in params.criteria|keys %}
         {{ sbar.displayCriteria({'itemtype': search_data.itemtype, 'num': num, 'p': params}) }}
-    {% endfor %}
+    {% endfor %#}
 
 {#
       echo "<ul id='$searchcriteriatableid'>";
@@ -488,8 +489,9 @@ JAVASCRIPT;
 #}
     </div>
     <!-- /.box-body -->
-    <div class="card-footer">
-        <div class="btn-group" role="group" aria-label="Basic example">
+    {# Search form must be reworked
+   {<div class="card-footer">
+        <div class="btn-group" role="group">
         <a href="#" onclick="savesearch.dialog('open'); return false;" class="btn btn-default bookmark_record save" title="{{ __('Save current search') }}">
             <i class="fa fa-star"></i>
             <span class="sr-only">{{ __('Save current search') }}</span>
@@ -503,5 +505,5 @@ JAVASCRIPT;
             {{ __('Search') }}
         </button>
         </div>
-    </div>
+    </div>#}
 </header>
