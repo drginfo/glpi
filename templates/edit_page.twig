@@ -44,7 +44,7 @@
       <div class="col-md-3">
          <div class="card">
             <div class="card-body no-padding">
-               <ul class="nav nav-pills flex-column">
+               <ul class="nav nav-pills flex-column" role="tablist" aria-orientation="vertical">
    {% for tab, entry in item.getTabs() %}
       {% if entry is not iterable %}
          {% set label = entry %}
@@ -53,13 +53,13 @@
       {% endif %}
                   <li class="nav-item">
                      <a href="{{ path_for('update-asset', {'itemtype': item.getType(), 'id': item.fields.id, 'tab': tab}) }}"
-                         class="nav-link {% if current_tab == tab %}active{% endif %}"
+                         class="nav-link{% if current_tab == tab %} active{% endif %}"
                          data-toggle="tab"
                          data-target="#{{ tab }}">
                         {{ label }}
       {% if entry.count is defined %}
                         <span class="pull-right-container">
-                           <span class="label label-{% if entry.count == 0 %}default{% else %}primary{% endif %} pull-right">{{ entry.count }}</span>
+                           <span class="badge badge-{% if entry.count == 0 %}default{% else %}primary{% endif %} float-right">{{ entry.count }}</span>
                         </span>
       {% endif %}
                      </a>

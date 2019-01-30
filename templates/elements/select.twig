@@ -47,10 +47,13 @@
 {% endmacro %}
 
 {% block element %}
+   <div class="controls">
+   <div class="input-group">
+      <div class="form-control">
     <select
         name="{{ element.name }}"
         id="{{ element.id|default(element.name) }}"
-        class="forSelect2 form-control{%if element.class is defined %} {{ element.class }}{% endif %}"
+        class="forSelect2{%if element.class is defined %} {{ element.class }}{% endif %}"
         {% if element.required is defined and element.required == true %} required="required"{% endif %}
         {% if element.disabled is defined and element.disabled == true %} disabled="disabled"{% endif %}
         {% if element.itemtype is defined %} data-itemtype="{{ element.itemtype }}"
@@ -61,7 +64,8 @@
          {% import _self as glpi_select %}
          {{ glpi_select.html_options(element.values, element.value|default(''), element.value_txt|default('')) }}
     </select>
-   <span class="input-group-btn">
+      </div>
+   <span class="input-group-append">
    {% if element.listicon is not defined or element.listicon == true %}
       {% if element.value is defined and element.value > 0 %}
          {% set elt_path = path_for('update-asset', {'itemtype': element.itemtype, 'id': element.value}) %}
@@ -88,4 +92,6 @@
    {% endif %}
    {% block extra_addons %}{% endblock %}
    </span>
+   </div>
+   </div>
 {% endblock %}
