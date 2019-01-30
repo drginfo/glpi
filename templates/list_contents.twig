@@ -518,13 +518,13 @@
          <div class="float-right">
             <ul class="pagination">
                <li class="page-item{% if search_data.pagination.current_page == 1 %} disabled{% endif %}">
-                  <a href="{{ path_for('list', {'itemtype': search_data.itemtype, 'page': 1}) }}" title="{{ __("First page") }}">
+                  <a class="page-link" href="{{ path_for('list', {'itemtype': search_data.itemtype, 'page': 1}) }}" title="{{ __("First page") }}">
                      <i class="fa fa-fast-backward"></i>
                      <span class="sr-only">{{ __("First page") }}</span>
                   </a>
                </li>
                <li class="page-item{% if search_data.pagination.previous_page == false or search_data.pagination.current_page == search_data.pagination.previous_page %} disabled{% endif %}">
-                  <a href="{% if search_data.pagination.previous_page == false %}#{% else %}{{ path_for('list', {'itemtype': search_data.itemtype, 'page': search_data.pagination.previous_page})}}{% endif %}" title="{{ __("Previous page (%1$s)")|format(search_data.pagination.previous_page) }}">
+                  <a class="page-link" href="{% if search_data.pagination.previous_page == false %}#{% else %}{{ path_for('list', {'itemtype': search_data.itemtype, 'page': search_data.pagination.previous_page})}}{% endif %}" title="{{ __("Previous page (%1$s)")|format(search_data.pagination.previous_page) }}">
                      <i class="fa fa-step-backward"></i>
                      <span class="sr-only">
                         {{ __("Previous page (%1$s)")|format(search_data.pagination.previous_page) }}
@@ -532,23 +532,23 @@
                   </a>
                </li>
     {% for page in search_data.pagination.pages %}
-               <li class="paginate_button{% if page.current is defined %} active{% endif %}">
-                  <a href="{{ path_for('list', {'itemtype': search_data.itemtype, 'page': page.value}) }}" title="{{ page.title }}">
+               <li class="page-item{% if page.current is defined %} active{% endif %}">
+                  <a class="page-link" href="{{ path_for('list', {'itemtype': search_data.itemtype, 'page': page.value}) }}" title="{{ page.title }}">
                      {% set page_content = page.label|default(page.value) %}
                      {{ page_content|raw  }}
                   </a>
                </li>
     {% endfor %}
-               <li class="paginate_button next{% if search_data.pagination.next_page == false or search_data.pagination.current_page == search_data.pagination.next_page %} disabled{% endif %}">
-                  <a href="{{ path_for('list', {'itemtype': search_data.itemtype, 'page': search_data.pagination.next_page })}}" title="{{ __("Next page (%1$s)")|format(search_data.pagination.next_page) }}">
+               <li class="page-item{% if search_data.pagination.next_page == false or search_data.pagination.current_page == search_data.pagination.next_page %} disabled{% endif %}">
+                  <a class="page-link" href="{{ path_for('list', {'itemtype': search_data.itemtype, 'page': search_data.pagination.next_page })}}" title="{{ __("Next page (%1$s)")|format(search_data.pagination.next_page) }}">
                      <i class="fa fa-step-forward"></i>
                      <span class="sr-only">
                         {{ __("Next page (%1$s)")|format(search_data.pagination.next_page) }}
                      </span>
                   </a>
                </li>
-               <li class="paginate_button last{% if search_data.pagination.last_page == false or search_data.pagination.current_page == search_data.pagination.last_page %} disabled{% endif %}">
-                  <a href="{{ path_for('list', {'itemtype': search_data.itemtype, 'page': search_data.pagination.last_page }) }}" title="{{ __("Last page (%1$s)")|format(search_data.pagination.last_page) }}">
+               <li class="page-item{% if search_data.pagination.last_page == false or search_data.pagination.current_page == search_data.pagination.last_page %} disabled{% endif %}">
+                  <a class="page-link" href="{{ path_for('list', {'itemtype': search_data.itemtype, 'page': search_data.pagination.last_page }) }}" title="{{ __("Last page (%1$s)")|format(search_data.pagination.last_page) }}">
                      <i class="fa fa-fast-forward"></i>
                      <span class="sr-only">{{ __("Last page (%1$s)")|format(search_data.pagination.last_page) }}</span>
                   </a>
