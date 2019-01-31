@@ -5369,9 +5369,9 @@ class CommonDBTM extends CommonGLPI {
       if ($dbfields = $DB->list_fields($this->getTable())) {
          foreach (array_keys($fields) as $field) {
             if (!isset($dbfields[$field])) {
-               Toolbox::logWarning(
-                  sprintf('Field %1$s does not exists in table %2$s', $field, $this->getTable())
-               );
+               /*Toolbox::logWarning(
+                    sprintf('Field %1$s does not exists in table %2$s', $field, $this->getTable())
+               );*/
                unset($fields[$field]);
             }
          }
@@ -5562,7 +5562,7 @@ class CommonDBTM extends CommonGLPI {
          }
       }
 
-      if (isForeignKeyField($column['Field']) && $element['label'] == $element['name']) {
+      if ($element['type'] != 'hidden' && isForeignKeyField($column['Field']) && $element['label'] == $element['name']) {
          $itemtype = getItemTypeForTable(getTableNameForForeignKeyField($column['Field']));
          $element['label'] = $itemtype::getTypeName(1);
       }
