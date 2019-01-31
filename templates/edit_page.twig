@@ -59,7 +59,7 @@
                         {{ label }}
       {% if entry.count is defined %}
                         <span class="pull-right-container">
-                           <span class="badge badge-{% if entry.count == 0 %}default{% else %}primary{% endif %} float-right">{{ entry.count }}</span>
+                           <span class="badge badge-{% if entry.count == 0 %}light{% else %}info{% endif %} float-right">{{ entry.count }}</span>
                         </span>
       {% endif %}
                      </a>
