@@ -53,8 +53,6 @@ services:
             - '@service_container'
         calls:
             - method: 'add'
-              arguments: ['@RunTracy\Middlewares\TracyMiddleware']
-            - method: 'add'
               arguments: ['@Glpi\Application\Middleware\TemplatesGlobals']
             - method: 'add'
               arguments: ['@Glpi\Application\Middleware\Reload']
@@ -73,26 +71,6 @@ services:
               displayErrorDetails: '%slim.displayErrorDetails%'
               addContentLengthHeader: '%slim.addContentLengthHeader%'
               routerCacheFile: '%slim.routerCacheFile%'
-              # Tracy settings are taken from here.
-              # Every panel listed here will be available in debug bar.
-              tracy:
-                  configs:
-                      ConsoleNoLogin: 0
-                      ProfilerPanel:
-                          show:
-                              memoryUsageChart: 1
-                              shortProfiles: true
-                              timeLines: true
-                  showPhpInfoPanel: ~
-                  showSlimRouterPanel: ~
-                  showSlimEnvironmentPanel: ~
-                  showSlimRequestPanel: ~
-                  showSlimResponsePanel: ~
-                  showSlimContainer: ~
-                  showTwigPanel: ~
-                  showProfilerPanel: ~
-                  showVendorVersionsPanel: ~
-                  showIncludedFiles: ~
 
     environment:
         class: 'Slim\Http\Environment'
@@ -127,8 +105,3 @@ services:
 
     callableResolver:
         class: 'Slim\CallableResolver'
-
-    RunTracy\Middlewares\TracyMiddleware:
-        class: 'RunTracy\Middlewares\TracyMiddleware'
-        arguments:
-            - '@Slim\App'

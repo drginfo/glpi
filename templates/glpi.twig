@@ -53,6 +53,8 @@
 
          {# TODO Should be moved in "javascripts" block but requires all scripts to be moved in this block too #}
          <script type="text/javascript" src="{{ CFG_GLPI.root_doc }}/{{ lib_path }}/jquery/jquery.js"></script>
+
+         {{ debug_head() }}
     </head>
     <body class="app sidebar-md-show aside-menu-show {{ body_class }}">
         {% block header %}{% endblock %}
@@ -109,6 +111,8 @@
          <script type="text/javascript">{{ script|raw }}</script>
       {% endfor %#}
    {% endblock %}
+
+    {{ debug_bar() }}
 
         {# cron call #}
     {% if not constant('GLPI_DEMO_MODE') %}

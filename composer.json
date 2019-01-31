@@ -45,7 +45,7 @@
         "doctrine/annotations": "^1.4",
         "twig/extensions": "^1.5",
         "kanellov/slim-twig-flash": "^0.2.0",
-        "runcmf/runtracy": "^0.2.10"
+        "maximebf/debugbar": "^1.15"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "~6",

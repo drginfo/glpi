@@ -37,6 +37,7 @@ if (version_compare(PHP_VERSION, '7.0.8') < 0) {
 }
 
 use Tracy\Debugger;
+use PhpMiddleware\PhpDebugBar\ConfigProvider;
 
 //Load GLPI constants
 define('GLPI_ROOT', __DIR__ . '/..');
@@ -45,9 +46,9 @@ include_once GLPI_ROOT . "/inc/define.php";
 
 //define('DO_NOT_CHECK_HTTP_REFERER', 1);
 
-RunTracy\Helpers\Profiler\Profiler::enable();
-Debugger::enable(Debugger::DEVELOPMENT, GLPI_LOG_DIR);
-Debugger::timer();
+//RunTracy\Helpers\Profiler\Profiler::enable();
+//Debugger::enable(Debugger::DEVELOPMENT, GLPI_LOG_DIR);
+//Debugger::timer();
 
 // If config_db doesn't exist -> start installation
 if (!file_exists(GLPI_CONFIG_DIR . "/config_db.php")) {
@@ -58,9 +59,10 @@ if (!file_exists(GLPI_CONFIG_DIR . "/config_db.php")) {
     $TRY_OLD_CONFIG_FIRST = true;
     include(GLPI_ROOT . "/inc/includes.php");
 
-    RunTracy\Helpers\Profiler\Profiler::start('initApp');
+    //RunTracy\Helpers\Profiler\Profiler::start('initApp');
     $app = $CONTAINER->get(Slim\App::class);
-    RunTracy\Helpers\Profiler\Profiler::finish('initApp');
+
+    //RunTracy\Helpers\Profiler\Profiler::finish('initApp');
 
     // Put router into global scope in order to be able to fetch routes in legacy code
     // while loaded from Slim application context.
@@ -68,7 +70,7 @@ if (!file_exists(GLPI_CONFIG_DIR . "/config_db.php")) {
     global $router;
     $router = $CONTAINER->get('router');
 
-    RunTracy\Helpers\Profiler\Profiler::start('runApp');
+    //RunTracy\Helpers\Profiler\Profiler::start('runApp');
     $app->run();
-    RunTracy\Helpers\Profiler\Profiler::finish('runApp');
+    //RunTracy\Helpers\Profiler\Profiler::finish('runApp');
 }

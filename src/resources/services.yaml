@@ -58,6 +58,8 @@ services:
               debug: true
         calls:
             - method: 'addExtension'
+              arguments: ['@Glpi\Application\View\TwigExtension\DebugBarExtension']
+            - method: 'addExtension'
               arguments: ['@Glpi\Application\View\TwigExtension\GlpiDebug']
             - method: 'addExtension'
               arguments: ['@Glpi\Application\View\TwigExtension\Locales']

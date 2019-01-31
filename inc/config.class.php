@@ -1962,8 +1962,6 @@ class Config extends CommonDBTM {
                  'check'   => 'Twig\Extensions\ArrayExtension' ],
                [ 'name'    => 'kanellov/slim-twig-flash',
                  'check'   => 'Knlv\Slim\Views\TwigMessages' ],
-               [ 'name'    => 'runcmf/runtracy',
-                 'check'   => 'RunTracy\Middlewares\TracyMiddleware' ],
       ];
       if ($all || PHP_VERSION_ID < 70000) {
          $deps[] = [

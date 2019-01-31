@@ -292,6 +292,19 @@ for (let packageName in libs) {
     }
 }
 
+config.plugins.push(
+    new CopyWebpackPlugin(
+        [
+            {
+                context: path.resolve(__dirname, 'vendor/maximebf/debugbar/src/DebugBar/Resources'),
+                from:    '**/*',
+                to:      path.resolve(__dirname, 'public/lib/debugbar'),
+                toType:  'dir',
+            }
+        ]
+    )
+);
+
 module.exports = (env, argv) => {
     if (argv.mode === 'development') {
         config.devtool = 'source-map';
