@@ -138,8 +138,6 @@ class Asset extends AbstractController implements ControllerInterface
             $route_params['head_dd'] = $head_dd;
         }
 
-        $get = $request->getQueryParams();
-
         return $this->view->render(
             $response,
             'list.twig',
@@ -216,13 +214,13 @@ class Asset extends AbstractController implements ControllerInterface
             $response,
             $tpl . '.twig',
             [
-            'page_title'   => sprintf(
-                __('%1$s - %2$s'),
-                __('New item'),
-                $item->getTypeName(1)
-            ),
-            'item'         => $item,
-            'withtemplate' => (isset($args['withtemplate']) ? $args['withtemplate'] : 0)
+                'page_title'   => sprintf(
+                    __('%1$s - %2$s'),
+                    __('New item'),
+                    $item->getTypeName(1)
+                ),
+                'item'         => $item,
+                'withtemplate' => (isset($args['withtemplate']) ? $args['withtemplate'] : 0)
             ] + $params
         );
     }
@@ -298,17 +296,20 @@ class Asset extends AbstractController implements ControllerInterface
                                 } elseif ($item->getType() == $sub_link_item::$itemtype_2) {
                                     $link_type = $sub_link_item::$itemtype_1;
                                 } else {
-                                    $link_type = ($sub_link_item::$itemtype_1 != 'itemtype' ? $sub_link_item::$itemtype_1 : $sub_link_item::$itemtype_2);
+                                    $link_type = ($sub_link_item::$itemtype_1 != 'itemtype' ?
+                                        $sub_link_item::$itemtype_1 :
+                                        $sub_link_item::$itemtype_2
+                                    );
                                 }
 
                                  $link = new $link_type;
                                  $search = new \Search($link, $params);
                                  $data[$link_type] = [
-                                  'search_data'  => $search->getData([
-                                 'item'      => $item,
-                                 'sub_item'  => $sub_link_item
-                                  ]),
-                                  'item'         => $sub_link_item
+                                    'search_data'  => $search->getData([
+                                        'item'      => $item,
+                                        'sub_item'  => $sub_link_item
+                                    ]),
+                                    'item'         => $sub_link_item
                                  ];
                             }
 
@@ -316,7 +317,7 @@ class Asset extends AbstractController implements ControllerInterface
                                 $response,
                                 'list_itemtyped_contents.twig',
                                 [
-                                'data'   => $data
+                                    'data'   => $data
                                 ]
                             );
                         } else {
@@ -325,7 +326,10 @@ class Asset extends AbstractController implements ControllerInterface
                             } elseif ($item->getType() == $sub_item::$itemtype_2) {
                                  $link_type = $sub_item::$itemtype_1;
                             } else {
-                                 $link_type = ($sub_item::$itemtype_1 != 'itemtype' ? $sub_item::$itemtype_1 : $sub_item::$itemtype_2);
+                                $link_type = ($sub_item::$itemtype_1 != 'itemtype' ?
+                                    $sub_item::$itemtype_1 :
+                                    $sub_item::$itemtype_2
+                                );
                             }
 
                             if (!empty($link_type) && $link_type != 'itemtype') {
@@ -339,16 +343,16 @@ class Asset extends AbstractController implements ControllerInterface
                                  $search->setPage((int)$args['page']);
                             }
                             $data = $search->getData([
-                            'item'      => $item,
-                            'sub_item'  => $sub_item
+                                'item'      => $item,
+                                'sub_item'  => $sub_item
                             ]);
 
                             return $this->view->render(
                                 $response,
                                 'list_contents.twig',
                                 [
-                                'search_data'     => $data,
-                                'item'            => $sub_item
+                                    'search_data'     => $data,
+                                    'item'            => $sub_item
                                 ]
                             );
                         }
@@ -360,16 +364,16 @@ class Asset extends AbstractController implements ControllerInterface
                             $search->setPage((int)$args['page']);
                         }
                         $data = $search->getData([
-                        'item'      => $item,
-                        'sub_item'  => $sub_item
+                            'item'      => $item,
+                            'sub_item'  => $sub_item
                         ]);
 
                         return $this->view->render(
                             $response,
                             'list_contents.twig',
                             [
-                            'search_data'     => $data,
-                            'item'            => $sub_item
+                                'search_data'     => $data,
+                                'item'            => $sub_item
                             ]
                         );
                     }
@@ -379,27 +383,27 @@ class Asset extends AbstractController implements ControllerInterface
                     if ($sub_item instanceof \CommonDBRelation) {
                         if ($item->getType() == $sub_item::$itemtype_1) {
                             $getcrit = [
-                             $sub_item::$items_id_1  => $item->fields['id']
+                                $sub_item::$items_id_1  => $item->fields['id']
                             ];
                         } elseif ($item->getType() == $sub_item::$itemtype_2) {
                             $getcrit = [
-                             $sub_item::$items_id_2  => $item->fields['id']
+                                $sub_item::$items_id_2  => $item->fields['id']
                             ];
                         } else {
                             $getcrit = [
-                             'itemtype'  => $item->getType(),
-                             'items_id'  => $item->fields['id']
+                                'itemtype'  => $item->getType(),
+                                'items_id'  => $item->fields['id']
                             ];
                         }
                     } elseif ($sub_item instanceof \CommonDBChild) {
                         if ($item->getType() == $sub_item::$itemtype) {
                             $getcrit = [
-                             $sub_item::$items_id => $item->fields['id']
+                                $sub_item::$items_id => $item->fields['id']
                             ];
                         } else {
                             $getcrit = [
-                             'itemtype'  => $item->getType(),
-                             'items_id'  => $item->fields['id']
+                                'itemtype'  => $item->getType(),
+                                'items_id'  => $item->fields['id']
                             ];
                         }
                     }
@@ -417,32 +421,32 @@ class Asset extends AbstractController implements ControllerInterface
                         $params
                     );
 
-                 /*if (!isset($form['action'])) {
-                  $form['action'] = $this->router->pathFor(
-                     'do-add-asset',
-                     $args
-                  );
-                 }*/
-                 /*
-                 $params['glpi_form'] = $item->getEditForm();
-                 if (!isset($params['glpi_form']['action'])) {
-                  $params['glpi_form']['action'] = $this->router->pathFor(
-                     'do-edit-asset',
-                     $args
-                  );
-                 }
-                 */
-                 break;
+                    /*if (!isset($form['action'])) {
+                    $form['action'] = $this->router->pathFor(
+                        'do-add-asset',
+                        $args
+                    );
+                    }*/
+                    /*
+                    $params['glpi_form'] = $item->getEditForm();
+                    if (!isset($params['glpi_form']['action'])) {
+                    $params['glpi_form']['action'] = $this->router->pathFor(
+                        'do-edit-asset',
+                        $args
+                    );
+                    }
+                    */
+                    break;
                 case \CommonDBTM::SUBITEM_SHOW_SPEC:
                     if ($sub_item instanceof \Log) {
                         $sql_filters = \Log::convertFiltersValuesToSqlCriteria(
                             isset($_GET['filters']) ? $_GET['filters'] : []
                         );
 
-                     // Total Number of events
+                        // Total Number of events
                         $count_params = [
-                        'items_id'  => $item->fields['id'],
-                        'itemtype'  => $item->getType()
+                            'items_id'  => $item->fields['id'],
+                            'itemtype'  => $item->getType()
                         ];
 
                         $limit = $_SESSION['glpilist_limit'];
@@ -453,64 +457,55 @@ class Asset extends AbstractController implements ControllerInterface
                         );
 
                         $columns = [
-                        'id'        => [
-                         'itemtype'  => 'Log',
-                         'id'        => 1,
-                         'name'      => __('ID'),
-                         'meta'      => 0,
-                         'searchopt' => []
-                        ],
-                        'date_mod'  => [
-                         'itemtype'  => 'Log',
-                         'id'        => 2,
-                         'name'      => __('Date'),
-                         'meta'      => 0,
-                         'searchopt' => []
-                        ],
-                        'user_name'  => [
-                         'itemtype'  => 'Log',
-                         'id'        => 3,
-                         'name'      => __('User'),
-                         'meta'      => 0,
-                         'searchopt' => []
-                        ],
-                        'field'  => [
-                         'itemtype'  => 'Log',
-                         'id'        => 4,
-                         'name'      => __('Field'),
-                         'meta'      => 0,
-                         'searchopt' => []
-                        ],
-                        'change'  => [
-                         'itemtype'  => 'Log',
-                         'id'        => 5,
-                         'name'      => __('Update'),
-                         'meta'      => 0,
-                         'searchopt' => []
-                        ]
+                            'id'        => [
+                                'itemtype'  => 'Log',
+                                'id'        => 1,
+                                'name'      => __('ID'),
+                                'meta'      => 0,
+                                'searchopt' => []
+                            ],
+                            'date_mod'  => [
+                                'itemtype'  => 'Log',
+                                'id'        => 2,
+                                'name'      => __('Date'),
+                                'meta'      => 0,
+                                'searchopt' => []
+                            ],
+                            'user_name'  => [
+                                'itemtype'  => 'Log',
+                                'id'        => 3,
+                                'name'      => __('User'),
+                                'meta'      => 0,
+                                'searchopt' => []
+                            ],
+                            'field'  => [
+                                'itemtype'  => 'Log',
+                                'id'        => 4,
+                                'name'      => __('Field'),
+                                'meta'      => 0,
+                                'searchopt' => []
+                            ],
+                            'change'  => [
+                                'itemtype'  => 'Log',
+                                'id'        => 5,
+                                'name'      => __('Update'),
+                                'meta'      => 0,
+                                'searchopt' => []
+                            ]
                         ];
                         $colkeys = array_keys($columns);
 
                         $history_data = [];
                         foreach ($db_history_data as $data) {
                             $history_data[] = [
-                             'display_history' => $data['display_history'],
-                             'Log_' . array_search('id', $colkeys)              => [
-                                'displayname' => $data["id"]],
-                             'Log_' . array_search('date_mod', $colkeys)        => [
-                             'displayname'  => $data["date_mod"]
-                             ],
-                             'Log_' . array_search('user_name', $colkeys)       => [
-                             'displayname' => $data["user_name"]
-                             ],
-                             'Log_' . array_search('field', $colkeys)           => [
-                             'displayname' => $data['field']
-                             ],
-                             'Log_' . array_search('change', $colkeys)          => [
-                             'displayname' => $data['change']
-                             ],
-                             'datatype'        => $data['datatype'],
-                             //'raw'             => $data['raw']
+                                'display_history'                             => $data['display_history'],
+                                'Log_' . array_search('id', $colkeys)         => ['displayname' => $data["id"]],
+                                'Log_' . array_search('date_mod', $colkeys)   => ['displayname'  => $data["date_mod"]],
+                                'Log_' . array_search('user_name', $colkeys)  => ['displayname' => $data["user_name"]],
+                                'Log_' . array_search('field', $colkeys)      => ['displayname' => $data['field']],
+                                'Log_' . array_search('change', $colkeys)     => ['displayname' => $data['change']],
+                                'datatype'                                    => $data['datatype'],
+                                //'raw'             => $data['raw']
                             ];
                         }
 
@@ -530,14 +525,14 @@ class Asset extends AbstractController implements ControllerInterface
                         }
 
                         $pagination = [
-                        'start'           => 0,
-                        'limit'           => $limit,
-                        'count'           => $count,
-                        'current_page'    => $current_page,
-                        'previous_page'   => $previous,
-                        'next_page'       => $next,
-                        'last_page'       => $last,
-                        'pages'           => []
+                            'start'           => 0,
+                            'limit'           => $limit,
+                            'count'           => $count,
+                            'current_page'    => $current_page,
+                            'previous_page'   => $previous,
+                            'next_page'       => $next,
+                            'last_page'       => $last,
+                            'pages'           => []
                         ];
 
                         $idepart = $current_page - 2;
@@ -567,26 +562,26 @@ class Asset extends AbstractController implements ControllerInterface
                         }
 
                         $search_data = [
-                        'itemtype'        => 'Log',
-                        'data'            => [
-                        'begin'        => 0,
-                        'end'          => $_SESSION['glpilist_limit'],
-                        'totalcount'   => $count,
-                        'cols'         => $columns,
-                        'rows'         => $history_data
-                        ],
-                        'search'    => [
-                        'start'  => 0
-                        ],
-                        'pagination'   => $pagination
+                            'itemtype'        => 'Log',
+                            'data'            => [
+                                'begin'        => 0,
+                                'end'          => $_SESSION['glpilist_limit'],
+                                'totalcount'   => $count,
+                                'cols'         => $columns,
+                                'rows'         => $history_data
+                            ],
+                            'search'    => [
+                                'start'  => 0
+                            ],
+                            'pagination'   => $pagination
                         ];
                         return $this->view->render(
                             $response,
                             'list_contents.twig',
                             [
-                            'search_data'  => $search_data,
-                            'item'         => $item,
-                            'no_checkbox'  => true
+                                'search_data'  => $search_data,
+                                'item'         => $item,
+                                'no_checkbox'  => true
                             ]
                         );
                     } else {
@@ -656,8 +651,8 @@ class Asset extends AbstractController implements ControllerInterface
             );
             ob_start();
             $item->display([
-             'id'           => $args['id'],
-             'withtemplate' => (isset($args['withtemplate']) ? $args['withtemplate'] : 0)
+                'id'           => $args['id'],
+                'withtemplate' => (isset($args['withtemplate']) ? $args['withtemplate'] : 0)
             ]);
             $params['contents'] = ob_get_contents();
             ob_end_clean();
@@ -677,11 +672,9 @@ class Asset extends AbstractController implements ControllerInterface
             $item->getTypeName(1)
         );
         if ($_SESSION['glpiis_ids_visible']) {
-           //TRANS: %1$s is the Itemtype name and $2$d the ID of the item
-            $nametype = sprintf(__('%1$s - ID %2$d'), $item->getTypeName(1), $item->fields['id']);
-
+           //TRANS: %1$s is a translated string, %2$s is the Itemtype name and %3$d the ID of the item
             $page_title = sprintf(
-                __('%1$s - %2$s (#%2$d)'),
+                __('%1$s - %2$s (#%3$d)'),
                 __('Edit item'),
                 $item->getTypeName(1),
                 $item->fields['id']
@@ -692,10 +685,10 @@ class Asset extends AbstractController implements ControllerInterface
             $response,
             'edit_page.twig',
             [
-            'page_title'   => $item->getTypeName(Session::getPluralNumber()),
-            'item'         => $item,
-            'withtemplate' => (isset($args['withtemplate']) ? $args['withtemplate'] : 0),
-            'current_tab'  => $args['tab']
+                'page_title'   => $page_title,
+                'item'         => $item,
+                'withtemplate' => (isset($args['withtemplate']) ? $args['withtemplate'] : 0),
+                'current_tab'  => $args['tab']
             ] + $params
         );
     }
@@ -735,16 +728,16 @@ class Asset extends AbstractController implements ControllerInterface
                 $redirect_uri = $this->router->pathFor(
                     'update-asset',
                     [
-                    'itemtype'  => $args['itemtype'],
-                    'id'        => $item->fields['id']
+                        'itemtype'  => $args['itemtype'],
+                        'id'        => $item->fields['id']
                     ]
                 );
             }
         }
 
         return $response
-         ->withStatus(301)
-         ->withHeader('Location', $redirect_uri);
+             ->withStatus(301)
+             ->withHeader('Location', $redirect_uri);
     }
 
    /**
@@ -779,8 +772,8 @@ class Asset extends AbstractController implements ControllerInterface
                 $redirect_uri = $this->router->pathFor(
                     'update-asset',
                     [
-                    'itemtype'  => $args['itemtype'],
-                    'id'        => $item->fields['id']
+                        'itemtype'  => $args['itemtype'],
+                        'id'        => $item->fields['id']
                     ]
                 );
             }
@@ -828,8 +821,8 @@ class Asset extends AbstractController implements ControllerInterface
 
         $tpl = 'devices.twig';
         $params = [
-         'page_title'   => __('Devices'),
-         'glpi_form'    => $glpi_form
+            'page_title'   => __('Devices'),
+            'glpi_form'    => $glpi_form
         ];
 
         $this->view->getEnvironment()->addGlobal(

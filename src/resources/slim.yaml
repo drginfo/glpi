@@ -121,7 +121,7 @@ services:
 
     notFoundHandler:
         class: 'Slim\Handlers\NotFound'
-        
+
     notAllowedHandler:
         class: 'Slim\Handlers\NotAllowed'
 

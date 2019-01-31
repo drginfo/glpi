@@ -109,13 +109,13 @@ class Main extends AbstractController implements ControllerInterface
         if (GLPI_DEMO_MODE) {
            //lang selector
             $glpi_form['elements']['language'] = [
-            'empty_value'  => true,
-            'empty_text'   => __('Default (from user profile)'),
-            'type'         => 'select',
-            'name'         => 'language',
-            'values'       => Dropdown::getLanguages(),
-            'listicon'     => false,
-            'addicon'      => false
+                'empty_value'  => true,
+                'empty_text'   => __('Default (from user profile)'),
+                'type'         => 'select',
+                'name'         => 'language',
+                'values'       => Dropdown::getLanguages(),
+                'listicon'     => false,
+                'addicon'      => false
             ];
         }
 
@@ -124,35 +124,35 @@ class Main extends AbstractController implements ControllerInterface
         unset($auth_methods['_default']);
         if (count($auth_methods) > 1) {
             $glpi_form['elements']['auth'] = [
-            'type'   => 'select',
-            'name'   => 'auth',
-            'value'  => $default,
-            'values' => $auth_methods,
-            'listicon'  => false,
-            'addicon'   => false
+                'type'   => 'select',
+                'name'   => 'auth',
+                'value'  => $default,
+                'values' => $auth_methods,
+                'listicon'  => false,
+                'addicon'   => false
             ];
         } else {
             $glpi_form['elements']['auth'] = [
-            'type'   => 'hidden',
-            'name'   => 'auth',
-            'value'  => key($auth_methods)
+                'type'   => 'hidden',
+                'name'   => 'auth',
+                'value'  => key($auth_methods)
             ];
         }
 
         if ($this->config['login_remember_time']) {
             $glpi_form['elements']['remember'] = [
-            'type'      => 'checkbox',
-            'name'      => 'login_remember',
-            'label'     => __('Remember me')
+                'type'      => 'checkbox',
+                'name'      => 'login_remember',
+                'label'     => __('Remember me')
             ];
         }
 
         if (isset($_GET["noAUTO"])) {
            // Other CAS
             $glpi_form['elements']['noAUTO'] = [
-            'type'   => 'hidden',
-            'name'   => 'noAUTO',
-            'value'  => 1
+                'type'   => 'hidden',
+                'name'   => 'noAUTO',
+                'value'  => 1
             ];
         }
 
@@ -161,9 +161,9 @@ class Main extends AbstractController implements ControllerInterface
             $active = \countElementsInTable(
                 'glpi_notifications',
                 [
-                'itemtype'  => 'User',
-                'event'     => 'passwordforget',
-                'is_active' => 1
+                    'itemtype'  => 'User',
+                    'event'     => 'passwordforget',
+                    'is_active' => 1
                 ]
             );
             if ($active > 0) {
@@ -180,9 +180,9 @@ class Main extends AbstractController implements ControllerInterface
             $response,
             'login.twig',
             [
-            'glpi_form'       => $glpi_form,
-            'show_lostpass'   => $show_lostpass,
-            'show_faq'        => $show_faq
+                'glpi_form'       => $glpi_form,
+                'show_lostpass'   => $show_lostpass,
+                'show_faq'        => $show_faq
             ]
         );
     }
@@ -452,10 +452,10 @@ class Main extends AbstractController implements ControllerInterface
     {
         $get = $request->getQueryParams();
 
-      // Clean for search
+        // Clean for search
         $_GET = \Toolbox::stripslashes_deep($_GET);
 
-      // Search a solution
+        // Search a solution
         if (!isset($_GET["contains"])
          && isset($_GET["item_itemtype"])
          && isset($_GET["item_items_id"])) {
@@ -466,7 +466,7 @@ class Main extends AbstractController implements ControllerInterface
             }
         }
 
-      // Manage forcetab : non standard system (file name <> class name)
+        // Manage forcetab : non standard system (file name <> class name)
         if (isset($_GET['forcetab'])) {
             Session::setActiveTab('Knowbase', $_GET['forcetab']);
             unset($_GET['forcetab']);
@@ -487,9 +487,9 @@ class Main extends AbstractController implements ControllerInterface
             $response,
             'legacy.twig',
             [
-            'page_title'      => \KnowbaseItem::getTypeName(Session::getPluralNumber()),
-            'contents'        => $contents,
-            'item'            => $kb
+                'page_title'      => \KnowbaseItem::getTypeName(Session::getPluralNumber()),
+                'contents'        => $contents,
+                'item'            => $kb
             ]
         );
     }
@@ -531,8 +531,8 @@ class Main extends AbstractController implements ControllerInterface
 
         $tpl = 'dropdowns.twig';
         $params = [
-         'page_title'   => __('Dropdowns'),
-         'glpi_form'    => $glpi_form
+            'page_title'   => __('Dropdowns'),
+            'glpi_form'    => $glpi_form
         ];
 
         $this->view->getEnvironment()->addGlobal(
@@ -587,8 +587,8 @@ class Main extends AbstractController implements ControllerInterface
       //legacy
         ob_start();
         $setupdisplay->display([
-         'displaytype'  => $args['itemtype'],
-         '_target'      => $this->router->pathFor('do-display-preference', ['itemtype' => $args['itemtype']])
+            'displaytype'  => $args['itemtype'],
+            '_target'      => $this->router->pathFor('do-display-preference', ['itemtype' => $args['itemtype']])
         ]);
         $contents = ob_get_contents();
         ob_end_clean();
@@ -621,8 +621,9 @@ class Main extends AbstractController implements ControllerInterface
         } elseif (isset($post["disable"])) {
             if ($post['users_id'] == Session::getLoginUserID()) {
                 $setupdisplay->deleteByCriteria([
-                'users_id' => $post['users_id'],
-                'itemtype' => $post['itemtype']]);
+                    'users_id' => $post['users_id'],
+                    'itemtype' => $post['itemtype']
+                ]);
             }
         } elseif (isset($post["add"])) {
             $setupdisplay->add($post);
@@ -634,7 +635,7 @@ class Main extends AbstractController implements ControllerInterface
             $setupdisplay->orderItem($post, 'down');
         }
 
-      // Datas may come from GET or POST : use REQUEST
+      // Data may come from GET or POST : use REQUEST
       /*if (isset($_REQUEST["itemtype"])) {
          $setupdisplay->display(['displaytype' => $_REQUEST['itemtype']]);
       }*/
@@ -705,8 +706,8 @@ class Main extends AbstractController implements ControllerInterface
     {
         $dictionnaries = \RuleCollection::getDictionnaries();
         $params = [
-         'page_title'      => __('Dictionaries'),
-         'dictionnaries'   => $dictionnaries
+            'page_title'      => __('Dictionaries'),
+            'dictionnaries'   => $dictionnaries
         ];
 
         $this->view->getEnvironment()->addGlobal(
@@ -782,15 +783,15 @@ class Main extends AbstractController implements ControllerInterface
     */
     public function cron(Request $request, Response $response, array $args)
     {
-      //FIXME: not finished yet!
+        //FIXME: not finished yet!
         $image = pack("H*", "47494638396118001800800000ffffff00000021f90401000000002c0000000".
                         "018001800000216848fa9cbed0fa39cb4da8bb3debcfb0f86e248965301003b");
         $response->write($image);
         return $response
-         ->withHeader('Content-Type', 'image/gif')
-         ->withHeader('Cache-Control', 'no-cache,no-store')
-         ->withHeader('Pragma', 'no-cache')
-         ->withHeader('Connection', 'close');
+            ->withHeader('Content-Type', 'image/gif')
+            ->withHeader('Cache-Control', 'no-cache,no-store')
+            ->withHeader('Pragma', 'no-cache')
+            ->withHeader('Connection', 'close');
     }
 
     /**
@@ -816,6 +817,13 @@ class Main extends AbstractController implements ControllerInterface
     }
 
     /**
+     * path: '/ajax/messages'
+     *
+     * @param Request  $request  Request
+     * @param Response $response Response
+     *
+     * @return void
+     *
      * @Glpi\Annotation\Route(name="messages", pattern="/ajax/messages")
      */
     public function messages(Request $request, Response $response)
@@ -904,7 +912,9 @@ class Main extends AbstractController implements ControllerInterface
                     $curtype = $row['TYPE'];
                     if (isset($points[$idx]['types'][$curtype])) {
                         $points[$idx]['types'][$curtype]['count']++;
-                        $points[$idx]['types'][$curtype]['name'] = strtolower($curtype::getTypeName(Session::getPluralNumber()));
+                        $points[$idx]['types'][$curtype]['name'] = strtolower(
+                            $curtype::getTypeName(Session::getPluralNumber())
+                        );
                     } else {
                         $points[$idx]['types'][$curtype] = [
                         'name'   => strtolower($curtype::getTypeName(1)),
