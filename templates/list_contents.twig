@@ -58,7 +58,7 @@
                <span class="sr-only">{{ __s('Select default items to show') }}</span>
             </a>
             <div class="btn-group">
-               <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+               <button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-download"></i><span class="sr-only">{{ __('Download') }}</span>
                </button>
                <div class="dropdown-menu">
@@ -276,7 +276,7 @@
    {% endif %}
                   <div class="btn-group">
                         <a
-                           class="btn btn-default btn-sm{% if search_data.pagination.previous_page == false or search_data.pagination.current_page == search_data.pagination.previous_page %} disabled{% endif %}"
+                           class="btn btn-outline-secondary btn-sm{% if search_data.pagination.previous_page == false or search_data.pagination.current_page == search_data.pagination.previous_page %} disabled{% endif %}"
                            href="{% if search_data.pagination.previous_page == false or search_data.pagination.current_page == search_data.pagination.previous_page %}#{% else %}{{ path_for('list', {'itemtype': search_data.itemtype, 'page': search_data.pagination.previous_page}) }}{% endif %}"
                            title="{{ __("Previous page (%1$s)")|format(search_data.pagination.previous_page) }}"
                         >
@@ -284,7 +284,7 @@
                            <span class="sr-only">{{ __("Previous page (%1$s)")|format(search_data.pagination.previous_page) }}</span>
                         </a>
                         <a
-                           class="btn btn-default btn-sm{% if search_data.pagination.next_page == false or search_data.pagination.current_page == search_data.pagination.next_page %} disabled{% endif %}"
+                           class="btn btn-outline-secondary btn-sm{% if search_data.pagination.next_page == false or search_data.pagination.current_page == search_data.pagination.next_page %} disabled{% endif %}"
                            href="{% if search_data.pagination.next_page == false or search_data.pagination.current_page == search_data.pagination.next_page %}#{% else %}{{ path_for('list', {'itemtype': search_data.itemtype, 'page': search_data.pagination.next_page}) }}{% endif %}"
                            title="{{ __("Next page (%1$s)")|format(search_data.pagination.next_page) }}"
                         >

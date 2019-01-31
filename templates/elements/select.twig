@@ -72,13 +72,13 @@
       {% else %}
          {% set elt_path = path_for('list', {'itemtype': element.itemtype}) %}
       {% endif %}
-      <a class="btn btn-default" href="{{ elt_path }}"
+      <a class="btn btn-outline-secondary" href="{{ elt_path }}"
          data-tooltip="{{ __s("Show %1$s")|format(element.itemtype_name) }}">
          <span class='fa fa-info pointer'></span>
       </a>
    {% endif %}
    {% if element.addicon is not defined or element.addicon == true %}
-      <a class="btn btn-default" href="{{ path_for('add-asset', {'itemtype': element.itemtype}) }}">
+      <a class="btn btn-outline-secondary" href="{{ path_for('add-asset', {'itemtype': element.itemtype}) }}">
       <span class="fa fa-plus-circle pointer" title="{{ __s('Add') }}"
 {#onClick=\"".Html::jsGetElementbyID('add_dropdown'.$params['name'].$params['rand']).".dialog('open');\"#}
       ><span class="sr-only">{{ __s('Add') }}</span>
