@@ -459,35 +459,35 @@ class Asset extends AbstractController implements ControllerInterface
                         $columns = [
                             'id'        => [
                                 'itemtype'  => 'Log',
-                                'id'        => 1,
+                                'id'        => 0,
                                 'name'      => __('ID'),
                                 'meta'      => 0,
                                 'searchopt' => []
                             ],
                             'date_mod'  => [
                                 'itemtype'  => 'Log',
-                                'id'        => 2,
+                                'id'        => 1,
                                 'name'      => __('Date'),
                                 'meta'      => 0,
                                 'searchopt' => []
                             ],
                             'user_name'  => [
                                 'itemtype'  => 'Log',
-                                'id'        => 3,
+                                'id'        => 2,
                                 'name'      => __('User'),
                                 'meta'      => 0,
                                 'searchopt' => []
                             ],
                             'field'  => [
                                 'itemtype'  => 'Log',
-                                'id'        => 4,
+                                'id'        => 3,
                                 'name'      => __('Field'),
                                 'meta'      => 0,
                                 'searchopt' => []
                             ],
                             'change'  => [
                                 'itemtype'  => 'Log',
-                                'id'        => 5,
+                                'id'        => 4,
                                 'name'      => __('Update'),
                                 'meta'      => 0,
                                 'searchopt' => []

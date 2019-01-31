@@ -90,7 +90,7 @@
 {% if form_header %}
     {% include "searchbar.twig" %}
 {% endif %}
-{% if search_data.search.as_map %}
+{% if search_data.search.as_map is defined and search_data.search.as_map %}
             <div class="center">
                 <p>{{ __('Search results for localized items only') }}</p>
             </div>
@@ -506,7 +506,7 @@
 {% endif %} {# /list display #}
          </form>
       </div> <!-- /.box-body -->
-{% if not search_data.search.as_map %}
+{% if search_data.search.as_map is not defined or not search_data.search.as_map %}
       <div class="card-footer">
    {% if search_data.data.totalcount > 0 %}
          {{ __('From %1$d to %2$d of %3$d')|format(
