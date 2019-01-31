@@ -7102,8 +7102,8 @@ abstract class CommonITILObject extends CommonDBTM {
             ]
          ];
 
-         $criteria['FIELDS'] = array_merge(
-            $criteria['FIELDS'], [
+         $criteria['SELECT'] = array_merge(
+            $criteria['SELECT'], [
                'glpi_entities.completename AS entityname',
                "$table.entities_id AS entityID"
             ]
