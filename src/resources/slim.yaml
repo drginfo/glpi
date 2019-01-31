@@ -73,24 +73,26 @@ services:
               displayErrorDetails: '%slim.displayErrorDetails%'
               addContentLengthHeader: '%slim.addContentLengthHeader%'
               routerCacheFile: '%slim.routerCacheFile%'
-              # TODO move this elsewhere
+              # Tracy settings are taken from here.
+              # Every panel listed here will be available in debug bar.
               tracy:
-                  showPhpInfoPanel: 1
-                  showSlimRouterPanel: 1
-                  showSlimEnvironmentPanel: 1
-                  showSlimRequestPanel: 1
-                  showSlimResponsePanel: 1
-                  showSlimContainer: 1
-                  showTwigPanel: 1
-                  showProfilerPanel: 1
-                  showVendorVersionsPanel: 1
-                  showIncludedFiles: 1
                   configs:
+                      ConsoleNoLogin: 0
                       ProfilerPanel:
                           show:
                               memoryUsageChart: 1
                               shortProfiles: true
                               timeLines: true
+                  showPhpInfoPanel: ~
+                  showSlimRouterPanel: ~
+                  showSlimEnvironmentPanel: ~
+                  showSlimRequestPanel: ~
+                  showSlimResponsePanel: ~
+                  showSlimContainer: ~
+                  showTwigPanel: ~
+                  showProfilerPanel: ~
+                  showVendorVersionsPanel: ~
+                  showIncludedFiles: ~
 
     environment:
         class: 'Slim\Http\Environment'
