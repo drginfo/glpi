@@ -51,9 +51,11 @@ services:
     Glpi\Application\View\TwigView:
         arguments:
             - '%kernel.project_dir%/templates'
-            - cache: '%cache_directory%'
+            - cache: '%cache_directory%/twig'
               strict_variables: true
               auto_reload: true
+              #should be false here and activated on debug mode
+              debug: true
         calls:
             - method: 'addExtension'
               arguments: ['@Glpi\Application\View\TwigExtension\GlpiDebug']
