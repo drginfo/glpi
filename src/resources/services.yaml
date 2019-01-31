@@ -65,6 +65,14 @@ services:
               arguments: ['@Glpi\Application\View\TwigExtension\Reflection']
             - method: 'addExtension'
               arguments: ['@Glpi\Application\View\TwigExtension\RouterExtension']
+            - method: 'addExtension'
+              arguments: ['@Knlv\Slim\Views\TwigMessages']
+            - method: 'addExtension'
+              arguments: ['@Twig_Extension_Debug']
+            - method: 'addExtension'
+              arguments: ['@Twig_Extensions_Extension_I18n']
+            - method: 'addExtension'
+              arguments: ['@Twig_Extension_Profiler']
 
     # Glpi\Cache\SimpleCache service is synthetic as it may be instanciate prior to container compilation
     Glpi\Cache\SimpleCache:
@@ -101,5 +109,27 @@ services:
                   - 'Glpi'
                   - '%kernel.project_dir%/src/'
 
+    Knlv\Slim\Views\TwigMessages:
+        class: 'Knlv\Slim\Views\TwigMessages'
+        arguments:
+            - '@Slim\Flash\Messages'
+
     Slim\Flash\Messages:
         class: 'Slim\Flash\Messages'
+
+    Twig_Extension_Debug:
+        class: 'Twig_Extension_Debug'
+
+    Twig_Extensions_Extension_I18n:
+        class: 'Twig_Extensions_Extension_I18n'
+
+    Twig_Extension_Profiler:
+        class: 'Twig_Extension_Profiler'
+        arguments:
+            - '@Twig_Profiler_Profile'
+
+    Twig_Profiler_Profile:
+        class: 'Twig_Profiler_Profile'
+    # 'twig_profile' alias used by RunTracy
+    twig_profile:
+        alias: 'Twig_Profiler_Profile'

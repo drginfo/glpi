@@ -41,27 +41,5 @@ use Slim\Views\Twig;
  */
 class TwigView extends Twig
 {
-    public function __construct($path, $settings = [])
-    {
-        parent::__construct($path, $settings);
 
-        $this->init();
-    }
-
-    private function init()
-    {
-        global $CONTAINER;
-
-        $view = $this;
-
-        // Instantiate and add Slim specific extension
-        $view->addExtension(new \Twig_Extensions_Extension_I18n());
-        $view->addExtension(new \Twig_Extension_Profiler($CONTAINER->get('twig_profile')));
-        $view->addExtension(new \Twig_Extension_Debug());
-        $view->addExtension(
-            new \Knlv\Slim\Views\TwigMessages(
-                $CONTAINER->get(\Slim\Flash\Messages::class)
-            )
-        );
-    }
 }

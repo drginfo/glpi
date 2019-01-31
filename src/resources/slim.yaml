@@ -71,28 +71,26 @@ services:
               outputBuffering: '%slim.outputBuffering%'
               determineRouteBeforeAppMiddleware: '%slim.determineRouteBeforeAppMiddleware%'
               displayErrorDetails: '%slim.displayErrorDetails%'
-              addContentLengthHeader: '%slim.httpVersion%'
+              addContentLengthHeader: '%slim.addContentLengthHeader%'
               routerCacheFile: '%slim.routerCacheFile%'
               # TODO move this elsewhere
               tracy:
-                  - showPhpInfoPanel: 1
-                    showSlimRouterPanel: 1
-                    showSlimEnvironmentPanel: 1
-                    showSlimRequestPanel: 1
-                    showSlimResponsePanel: 1
-                    showSlimContainer: 1
-                    showTwigPanel: 1
-                    showProfilerPanel: 1
-                    showVendorVersionsPanel: 1
-                    showIncludedFiles: 1
-                    configs:
-                        - ProfilerPanel:
-                          # Memory usage 'primaryValue' set as Profiler::enable() or Profiler::enable(1)
-                          # 'primaryValue' =>                   'effective',    // or 'absolute'
-                            - show:
-                                - memoryUsageChart: 1
-                                  shortProfiles: true
-                                  timeLines: true
+                  showPhpInfoPanel: 1
+                  showSlimRouterPanel: 1
+                  showSlimEnvironmentPanel: 1
+                  showSlimRequestPanel: 1
+                  showSlimResponsePanel: 1
+                  showSlimContainer: 1
+                  showTwigPanel: 1
+                  showProfilerPanel: 1
+                  showVendorVersionsPanel: 1
+                  showIncludedFiles: 1
+                  configs:
+                      ProfilerPanel:
+                          show:
+                              memoryUsageChart: 1
+                              shortProfiles: true
+                              timeLines: true
 
     environment:
         class: 'Slim\Http\Environment'
@@ -127,10 +125,6 @@ services:
 
     callableResolver:
         class: 'Slim\CallableResolver'
-
-    # Following is used by tracy
-    twig_profile:
-        class: 'Twig_Profiler_Profile'
 
     RunTracy\Middlewares\TracyMiddleware:
         class: 'RunTracy\Middlewares\TracyMiddleware'
