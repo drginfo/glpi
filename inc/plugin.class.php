@@ -313,6 +313,10 @@ class Plugin extends CommonDBTM {
          }
 
          // Plugin is known but we are unable to load informations, it should be cleaned
+         if ($plugin->fields['state'] == self::TOBECLEANED) {
+            // unless its state is already self::TOBECLEANED
+            return;
+         }
          $this->update(
             [
                'id'    => $plugin->fields['id'],
