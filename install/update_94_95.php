@@ -102,7 +102,12 @@ function update94to95() {
    $migration->displayWarning("DATETIME fields must be converted to TIMESTAMP for timezones to work. Run bin/console db:migration:timestamps");
 
    // Add a config entry for app timezone setting
-   $migration->addConfig(['timezone' => null]);
+   $migration->addConfig(
+      [
+         'use_timezones' => $DB->areTimezonesAvailable(),
+         'timezone' => null
+      ]
+   );
    /** /Timezones */
 
    // ************ Keep it at the end **************

@@ -2098,17 +2098,19 @@ class User extends CommonDBTM {
          echo "<tr class='tab_bg_1'><td></td><td></td></tr>";
       }
 
-      echo "<tr class='tab_bg_1'>";
-      echo "<td><label for='timezone'>".__('Time zone')."</label></td><td>";
-      $timezones = $DB->getTimezones();
-      Dropdown::showFromArray(
-         'timezone',
-         $timezones, [
-            'value'                 => $this->fields["timezone"],
-            'display_emptychoice'   => true
-         ]
-      );
-      echo "</td></tr>";
+      if ($DB->areTimezonesActives()) {
+         echo "<tr class='tab_bg_1'>";
+         echo "<td><label for='timezone'>".__('Time zone')."</label></td><td>";
+         $timezones = $DB->getTimezones();
+         Dropdown::showFromArray(
+            'timezone',
+            $timezones, [
+               'value'                 => $this->fields["timezone"],
+               'display_emptychoice'   => true
+            ]
+         );
+         echo "</td></tr>";
+      }
 
       echo "<tr class='tab_bg_1'>";
       if (!GLPI_DEMO_MODE) {
@@ -2569,17 +2571,19 @@ class User extends CommonDBTM {
             echo "<tr class='tab_bg_1'><td colspan='2'></td></tr>";
          }
 
-         echo "<tr class='tab_bg_1'>";
-         echo "<td><label for='timezone'>".__('Time zone')."</label></td><td>";
-         $timezones = $DB->getTimezones();
-         Dropdown::showFromArray(
-            'timezone',
-            $timezones, [
-               'value'                 => $this->fields["timezone"],
-               'display_emptychoice'   => true
-            ]
-         );
-         echo "</td></tr>";
+         if ($DB->areTimezonesActives()) {
+            echo "<tr class='tab_bg_1'>";
+            echo "<td><label for='timezone'>".__('Time zone')."</label></td><td>";
+            $timezones = $DB->getTimezones();
+            Dropdown::showFromArray(
+               'timezone',
+               $timezones, [
+                  'value'                 => $this->fields["timezone"],
+                  'display_emptychoice'   => true
+               ]
+            );
+            echo "</td></tr>";
+         }
 
          $phonerand = mt_rand();
          echo "<tr class='tab_bg_1'><td><label for='textfield_phone$phonerand'>" .  __('Phone') . "</label></td><td>";

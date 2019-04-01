@@ -1199,18 +1199,23 @@ class Config extends CommonDBTM {
       echo "<td>";
       Dropdown::showYesNo('highcontrast_css', $data['highcontrast_css'], -1, ['rand' => $rand]);
       echo "</td>";
-      echo "<td><label for='dropdown_timezone$rand'>" . __('Timezone') . "</label></td>";
-      echo "<td>";
-      $timezones = $DB->getTimezones();
-      Dropdown::showFromArray(
-         'timezone',
-         $timezones, [
-            'value'                 => $data["timezone"],
-            'display_emptychoice'   => true,
-            'emptylabel'            => __('Use server configuration')
-         ]
-      );
-      echo "</td></tr>";
+      if ($DB->areTimezonesActives()) {
+         echo "<td><label for='dropdown_timezone$rand'>" . __('Timezone') . "</label></td>";
+         echo "<td>";
+         $timezones = $DB->getTimezones();
+         Dropdown::showFromArray(
+            'timezone',
+            $timezones, [
+               'value'                 => $data["timezone"],
+               'display_emptychoice'   => true,
+               'emptylabel'            => __('Use server configuration')
+            ]
+         );
+         echo "</td>";
+      } else {
+         echo "<td colspan='2'></td>";
+      }
+      echo "</tr>";
 
       if ($oncentral) {
          echo "<tr class='tab_bg_1'><th colspan='4'>".__('Assistance')."</th></tr>";
@@ -1701,6 +1706,33 @@ class Config extends CommonDBTM {
       echo "</td></tr>";
 
       echo "<tr class='tab_bg_1'>";
+      echo "<td colspan='4' class='center b'>".__('Timezones usage');
+      echo "</td></tr>";
+
+      echo "<tr class='tab_bg_2'>";
+      echo "<td><label for='dropdown_use_timezones$rand'>" . __('Use timezones') . "</label></td>";
+      $tz_warning = '';
+      $tz_available = $DB->areTimezonesAvailable($tz_warning);
+      echo "<td>";
+      Dropdown::showYesNo(
+         "use_timezones",
+         $CFG_GLPI["use_timezones"],
+         !$tz_available && !$CFG_GLPI["use_timezones"] ? 1 : -1,
+         ['rand' => $rand]
+      );
+      echo "</td>";
+      echo "<td colspan='2'>";
+      if (!$tz_available) {
+         echo "<img src=\"{$CFG_GLPI['root_doc']}/pics/warning_min.png\">";
+         echo $tz_warning;
+      } else if ($CFG_GLPI["use_timezones"]) {
+         echo "<img src=\"{$CFG_GLPI['root_doc']}/pics/warning_min.png\">";
+         echo __('Disabling timezone usage may affect timestamps of existing data.');
+      }
+      echo "</td>";
+      echo "</tr>";
+
+      echo "<tr class='tab_bg_1'>";
       echo "<td colspan='4' class='center b'>".__('Password security policy');
       echo "</td></tr>";
 
@@ -1855,6 +1887,12 @@ class Config extends CommonDBTM {
       self::displayCheckExtensions(true);
 
       self::displayCheckDbEngine(true);
+
+      if (!$tz_available) {
+         echo "<img src=\"{$CFG_GLPI['root_doc']}/pics/warning_min.png\"> " . $tz_warning . "\n";
+      } else {
+         echo "<img src=\"{$CFG_GLPI['root_doc']}/pics/ok_min.png\">\n";
+      }
 
       self::checkWriteAccessToDirs(true);
       toolbox::checkSELinux(true);
